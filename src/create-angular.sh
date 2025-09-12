@@ -7,7 +7,9 @@ set -euo pipefail
 cursor=false
 ghpage=false
 i18n=false
+ssr=false
 tailwind=false
+zoneless=false
 title=""
 description=""
 while [[ $# -gt 0 ]]; do
@@ -15,46 +17,63 @@ while [[ $# -gt 0 ]]; do
         --cursor) cursor=true ;;
         --ghpage) ghpage=true ;;
         --i18n) i18n=true ;;
+        --ssr) ssr=true ;;
         --tailwind) tailwind=true ;;
+        --zoneless) zoneless=true ;;
         --title) shift; title="$1" ;;
         --description) shift; description="$1" ;;
     esac
     shift
 done
 
+# Handle dependencies
+
 # Create repository
 gh repo create "$title" -d "$description" --disable-wiki --public --clone
-cd "$title"
+# mkdir -p "$title" && cd "$title"
 
-# Create readme
+# Create project
+options=( 
+    --directory .
+    --inline-style
+    --inline-template
+    --routing
+    --skip-git
+    --skip-install
+    --standalone
+    --strict
+    --style=css
+)
+[[ "$cursor" == true ]] && options=(--ai-config=cursor "${options[@]}")
+[[ "$ssr" == true ]] && options=(--ssr "${options[@]}")
+[[ "$zoneless" == true ]] && options=(--zoneless "${options[@]}")
+ng new "$title" "${options[@]}"
+
+# Update readme
 mkdir -p .assets/
 curl -L https://upload.wikimedia.org/wikipedia/commons/c/ca/1x1.png -o "./.assets/res0.png"
 curl -L https://lipsum.app/852x480/aaa/000 -o "./.assets/res1.png"
 curl -L https://lipsum.app/852x480/aaa/000 -o "./.assets/res2.png"
-cat <<"EOF" > README.md
+cat <<EOF > README.md
 # <samp>OVERVIEW</samp>
-
-$description
 
 <img src=".assets/res1.png" width="49.25%"/><img src=".assets/res0.png" width="1.5%"/><img src=".assets/res2.png" width="49.25%"/>
 
-Maecenas id metus nisl.
-Donec iaculis sollicitudin enim, facilisis accumsan orci posuere sed.
-Nunc in ante sit amet mauris volutpat suscipit quis in leo.
-Morbi non felis dictum, maximus neque ac, pellentesque dui.
+# <samp>GUIDANCE</samp>
 
-# <samp>OVERVIEW</samp>
+\`\`\`
 
-```
-
-```
+\`\`\`
 EOF
 
-# Create project
-ng new $title --directory . --skip-git --routing --style=css --skip-install
-npm install
-
 # Config cursor
+if [[ "$cursor" == true ]]; then
+    mv .vscode/launch.json .cursor/
+    mv .vscode/tasks.json .cursor/
+    mv .cursor/rules/cursor.mdc .cursor/rules/angular.mdc
+    rm -fr ./vscode
+fi
+
 # Config ghpage
 # Config i18n
 # Config tailwind

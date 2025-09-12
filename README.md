@@ -1,19 +1,26 @@
 # <samp>OVERVIEW</samp>
 
-Create your GitHub projects.
-
 <img src=".assets/res1.png" width="49.25%"/><img src=".assets/res0.png" width="1.5%"/><img src=".assets/res2.png" width="49.25%"/>
 
-Maecenas id metus nisl. Donec iaculis sollicitudin enim, facilisis accumsan orci posuere sed. Nunc in ante sit amet mauris volutpat suscipit quis in leo. Morbi non felis dictum, maximus neque ac, pellentesque dui. Vestibulum tincidunt velit nec tempor suscipit. Sed feugiat ante quis urna finibus porttitor. Donec turpis metus, condimentum sed erat ac, mollis porttitor neque. Sed eget massa non lectus dapibus feugiat sit amet ut ligula. Aliquam imperdiet euismod urna in fermentum.
+Shell acripts to create various types of project on GitHub.
+They were created for GitHub leveraging GitHub CLI and Actions.
+Those are highly opinionated with strict defaults and they were forged with perfectionism in mind.
+You're totally free to use those scripts and make them yours, I even highly encourage you to do so.
 
 # <samp>GUIDANCE</samp>
 
 ### Create Angular Project
 
 ```shell
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/olankens/ghcreate/HEAD/src/create-angular.sh)" \
-    --title "template" --description "..." \
-    --cursor --ghpage --i18n --tailwind
+curl -fsL https://raw.githubusercontent.com/olankens/ghcreate/HEAD/src/create-angular.sh | sh -s -- \
+  --title "template" \
+  --description "..." \
+  --cursor \
+  --ghpage \
+  --i18n \
+  --ssr \
+  --tailwind \
+  --zoneless
 ```
 
 ### Create GitHub Profile
@@ -23,6 +30,18 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/olankens/ghcreate/HEAD/src
 ```
 
 ### Create Monorepo Project
+
+```shell
+
+```
+
+### Create Next Project
+
+```shell
+
+```
+
+### Create Nuxt Project
 
 ```shell
 
