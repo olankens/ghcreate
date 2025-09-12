@@ -11,7 +11,9 @@ Maecenas id metus nisl. Donec iaculis sollicitudin enim, facilisis accumsan orci
 ### Create Angular Project
 
 ```shell
-
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/olankens/ghcreate/HEAD/src/create-angular.sh)" \
+    --title "template" --description "..." \
+    --cursor --ghpage --i18n --tailwind
 ```
 
 ### Create GitHub Profile
